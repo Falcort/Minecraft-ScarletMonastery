@@ -1,0 +1,6 @@
+name: MonastereEcarlate
+version : 0.1
+main: monastereEcarlate.MonastereEcarlate
+author: Falcort
+website: http://thibaultsouquet.fr/
+description: This plugin is design to manage lobby and instance system of MineDaeron.
