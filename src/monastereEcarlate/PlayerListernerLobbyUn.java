@@ -4,10 +4,16 @@ package monastereEcarlate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class PlayerListernerLobbyUn implements Listener
 {
@@ -22,7 +28,7 @@ public class PlayerListernerLobbyUn implements Listener
 	private int bz = 241;
 	
 	//Nombre de joueur dans l'instance
-	private int nbPlayerInstance = 5;
+	private int nbPlayerInstance = 1;
 	
 	//Nombre de joueur dans la zone
 	private int numberPlayerInArea;
@@ -76,6 +82,28 @@ public class PlayerListernerLobbyUn implements Listener
 		numberPlayerInArea = 0;
 	}
 	
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEvent event)
+	{
+		Location SignEntrer = new Location(Bukkit.getServer().getWorld("world"), sx, sy, sz);
+		Location SignEntrerTP = new Location(Bukkit.getServer().getWorld("world"), tpsx, tpsy, tpsz);
+		
+		Location SignQuitter = new Location(Bukkit.getServer().getWorld("world"), tpsbx, tpsby, tpsbz);
+		Location SignQuitterTP = new Location(Bukkit.getServer().getWorld("world"), tpbx, tpby, tpbz);
+		
+		if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+		{
+			if(event.getClickedBlock().getLocation().equals(SignEntrer))
+			{
+				event.getPlayer().teleport(SignEntrerTP);
+			}
+			else if(event.getClickedBlock().getLocation().equals(SignQuitter))
+			{
+				event.getPlayer().teleport(SignQuitterTP);
+			}
+		}
+	}
+	
 	@SuppressWarnings("deprecation")
 	public void placeSign()
 	{
@@ -84,30 +112,43 @@ public class PlayerListernerLobbyUn implements Listener
 		
 		SignEnterLoc.getBlock().setType(Material.WALL_SIGN);
 		SignExitLoc.getBlock().setType(Material.WALL_SIGN);
-		SignExitLoc.getBlock().setData( (byte) 0x03 );
+		SignExitLoc.getBlock().setData((byte)0x03);
 		
-		String UpdateBack = "blockdata " + tpsbx + " " + tpsby + " " + tpsbz + " {Text2:\"{\\\"text\\\":\\\"Quittez ?\\\",\\\"clickEvent\\\":{\\\"action\\\":\\\"run_command\\\",\\\"value\\\":\\\"tp @p " + tpbx + " " + tpby + " " + tpbz + "\\\"}}\"}"; 
+		Block b = SignExitLoc.getBlock();
+		Sign s = (Sign) b.getState();
 		
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable()
 		{
 			public void run()
 			{
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), UpdateBack);
+				s.setLine(0, "Quittez ?");
+				s.update();
 			}
 		}, 60);
 	}
 	
 	public void updateSign()
 	{
-		String Update = "blockdata " + sx + " " + sy + " " + sz + " {Text1:\"{\\\"text\\\":\\\"Monastère\\\",\\\"color\\\":\\\"red\\\"}\", Text2:\"{\\\"text\\\":\\\"Instance n°1\\\",\\\"color\\\":\\\"green\\\"}\", Text3:\"{\\\"text\\\":\\\"" + numberPlayerInArea + " / " + nbPlayerInstance + "\\\", \\\"color\\\":\\\"aqua\\\"}\", Text4:\"{\\\"text\\\":\\\"Rejoindre ?\\\", \\\"color\\\":\\\"green\\\", \\\"clickEvent\\\":{\\\"action\\\":\\\"run_command\\\",\\\"value\\\":\\\"tp @p " + tpsx + " " + tpsy + " " + tpsz + "\\\"}}\"}";
-		String UpdateFull = "blockdata " + sx + " " + sy + " " + sz + " {Text1:\"{\\\"text\\\":\\\"Monastère\\\",\\\"color\\\":\\\"red\\\"}\", Text2:\"{\\\"text\\\":\\\"Instance n°1\\\",\\\"color\\\":\\\"green\\\"}\", Text3:\"{\\\"text\\\":\\\"" + numberPlayerInArea + " / " + nbPlayerInstance + "\\\", \\\"color\\\":\\\"red\\\"}\", Text4:\"{\\\"text\\\":\\\"COMPLET\\\", \\\"color\\\":\\\"red\\\"}\"}";
+		Location Sign = new Location(Bukkit.getServer().getWorld("world"), sx, sy, sz);
+		
+		Block b = Sign.getBlock();
+		Sign s = (Sign) b.getState();
+		
 		if (numberPlayerInArea < nbPlayerInstance)
 		{
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Update);
+			s.setLine(0, ChatColor.RED + "Monastère");
+			s.setLine(1, ChatColor.GREEN + "Instance n°1");
+			s.setLine(2, ChatColor.AQUA + "" + numberPlayerInArea + " / " + nbPlayerInstance);
+			s.setLine(3, ChatColor.GREEN + "Rejoindre ?");
+			s.update();
 		}
 		else
 		{
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), UpdateFull);
+			s.setLine(0, ChatColor.RED + "Monastère");
+			s.setLine(1, ChatColor.GREEN + "Instance n°1");
+			s.setLine(2, ChatColor.RED + "" + numberPlayerInArea + " / " + nbPlayerInstance);
+			s.setLine(3, ChatColor.RED + "COMPLET");
+			s.update();
 		}
 	}
 }
