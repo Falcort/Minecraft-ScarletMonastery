@@ -53,8 +53,10 @@ public class PlayerListernerLobbyUn implements Listener
 	private int tpby = 84;
 	private int tpbz = 253;
 	
-	private MonastereEcarlate plugin;
+	private boolean complet;
 	
+	private MonastereEcarlate plugin;
+
 	public PlayerListernerLobbyUn(MonastereEcarlate plugin)
 	{
 		this.plugin = plugin;
@@ -93,7 +95,8 @@ public class PlayerListernerLobbyUn implements Listener
 		
 		if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
 		{
-			if(event.getClickedBlock().getLocation().equals(SignEntrer))
+
+			if(event.getClickedBlock().getLocation().equals(SignEntrer) && complet == false)
 			{
 				event.getPlayer().teleport(SignEntrerTP);
 			}
@@ -101,6 +104,7 @@ public class PlayerListernerLobbyUn implements Listener
 			{
 				event.getPlayer().teleport(SignQuitterTP);
 			}
+
 		}
 	}
 	
@@ -121,7 +125,7 @@ public class PlayerListernerLobbyUn implements Listener
 		{
 			public void run()
 			{
-				s.setLine(0, "Quittez ?");
+				s.setLine(1, "Quittez ?");
 				s.update();
 			}
 		}, 60);
@@ -141,6 +145,7 @@ public class PlayerListernerLobbyUn implements Listener
 			s.setLine(2, ChatColor.AQUA + "" + numberPlayerInArea + " / " + nbPlayerInstance);
 			s.setLine(3, ChatColor.GREEN + "Rejoindre ?");
 			s.update();
+			complet = false;
 		}
 		else
 		{
@@ -149,6 +154,7 @@ public class PlayerListernerLobbyUn implements Listener
 			s.setLine(2, ChatColor.RED + "" + numberPlayerInArea + " / " + nbPlayerInstance);
 			s.setLine(3, ChatColor.RED + "COMPLET");
 			s.update();
+			complet = true;
 		}
 	}
 }
