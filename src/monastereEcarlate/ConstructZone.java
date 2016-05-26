@@ -27,6 +27,7 @@ public class ConstructZone
 	{
 		aLoc = new Location(Bukkit.getServer().getWorld(world), ax, ay, az);
 		bLoc = new Location(Bukkit.getServer().getWorld(world), bx, by, bz);
+		
 		cuboid = new Cuboid(aLoc, bLoc);
 	}
 	

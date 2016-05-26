@@ -36,7 +36,6 @@ public class LobbySystem implements Listener
 		this.SignEnterTP = SignEnter.getSignTP();
 		this.SignExit = SignExit.getSign();
 		this.SignExitTP = SignExit.getSignTP();
-		
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		placeSign();
 	}
@@ -90,6 +89,8 @@ public class LobbySystem implements Listener
 			}
 			else if(event.getClickedBlock().getLocation().equals(SignExit))
 			{
+				SignExitTP.setYaw(-90);
+				SignExitTP.setPitch(1);
 				event.getPlayer().teleport(SignExitTP);
 			}
 		}
@@ -106,8 +107,9 @@ public class LobbySystem implements Listener
 	private void placeSign()
 	{
 		SignEnter.getBlock().setType(Material.WALL_SIGN);
+		SignEnter.getBlock().setData((byte)0x04);
 		SignExit.getBlock().setType(Material.WALL_SIGN);
-		SignExit.getBlock().setData((byte)0x03);
+		SignExit.getBlock().setData((byte)0x05);
 		Block b = SignExit.getBlock();
 		Sign s = (Sign) b.getState();
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable()
