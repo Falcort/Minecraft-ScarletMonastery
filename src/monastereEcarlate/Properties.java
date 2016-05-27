@@ -1,5 +1,7 @@
 package monastereEcarlate;
 
+import org.bukkit.Bukkit;
+
 public class Properties
 {
 	private MonastereEcarlate plugin;
@@ -87,9 +89,11 @@ public class Properties
 	 */
 	private void ConstructFromConfig()
 	{
+		Bukkit.broadcastMessage("" + (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.x"));
+		Bukkit.broadcastMessage("" + (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.z"));
 		String world = plugin.getConfig().getString("MonastereEcarlate.Instance.MapName");
 		ZoneTest = new ConstructZone(world, plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point1.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point1.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point1.z"), plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point2.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point2.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point2.z"));
-		SignEnter = new ConstructSignLocs(world, plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.Coord.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.Coord.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.Coord.z"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.TP.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.TP.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.TP.z"), (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.Yaw"), (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.Picth"));
+		SignEnter = new ConstructSignLocs(world, plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.Coord.x"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.Coord.y"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.Coord.z"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.x"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.y"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.z"), (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.Yaw"), (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.Picth"));
 		SignExit = new ConstructSignLocs(world, plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.Coord.x"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.Coord.y"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.Coord.z"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.TP.x"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.TP.y"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.TP.z"), (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.TP.Yaw"), (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.TP.Picth"));
 	}
 	

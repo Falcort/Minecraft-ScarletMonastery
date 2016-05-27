@@ -89,8 +89,6 @@ public class LobbySystem implements Listener
 			}
 			else if(event.getClickedBlock().getLocation().equals(SignExit))
 			{
-				SignExitTP.setYaw(-90);
-				SignExitTP.setPitch(1);
 				event.getPlayer().teleport(SignExitTP);
 			}
 		}
