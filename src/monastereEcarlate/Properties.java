@@ -20,6 +20,14 @@ public class Properties
 		this.plugin = plugin;
 	}
 	
+	/**
+	 * JavaDoc loadConfiguration
+	 * This method create of load the default config of the plugin
+	 * Then laucnh the private method to construct the object
+	 * 
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.1
+	 */
 	public void loadConfiguration()
 	{
 		plugin.getConfig().addDefault("MonastereEcarlate.Instance.InstanceName", "Monastère");
@@ -37,16 +45,20 @@ public class Properties
 		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignEnter.Coord.x", 27);
 		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignEnter.Coord.y", 180);
 		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignEnter.Coord.z", 176);
-		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignEnter.TP.x", 24);
+		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignEnter.TP.x", 24.5);
 		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignEnter.TP.y", 179);
-		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignEnter.TP.z", 167);
+		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignEnter.TP.z", 167.5);
+		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignEnter.TP.Yaw", -90);
+		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignEnter.TP.Pitch", 0);
 
 		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignExit.Coord.x", 22);
 		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignExit.Coord.y", 180);
 		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignExit.Coord.z", 167);
-		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignExit.TP.x", 24);
+		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignExit.TP.x", 24.5);
 		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignExit.TP.y", 179);
-		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignExit.TP.z", 178);
+		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignExit.TP.z", 178.5);
+		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignExit.TP.Yaw", -90);
+		plugin.getConfig().addDefault("MonastereEcarlate.Instance.SignExit.TP.Pitch", 0);
 
 		plugin.getConfig().options().copyDefaults(true);
 		plugin.saveConfig();
@@ -54,39 +66,98 @@ public class Properties
 		this.ConstructFromConfig();
 	}
 	
+	/**
+	 * JavaDoc reload
+	 * This method just reload the config file of the plugin
+	 * 
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.1
+	 */
 	public void reload()
 	{
 		plugin.reloadConfig();
 	}
 	
+	/**
+	 * JavaDoc ConstructFromConfig
+	 * This method construct the object needed for the plugin
+	 * 
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.1
+	 */
 	private void ConstructFromConfig()
 	{
 		String world = plugin.getConfig().getString("MonastereEcarlate.Instance.MapName");
 		ZoneTest = new ConstructZone(world, plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point1.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point1.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point1.z"), plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point2.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point2.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.Cuboid.Point2.z"));
-		SignEnter = new ConstructSignLocs(world, plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.Coord.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.Coord.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.Coord.z"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.TP.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.TP.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.TP.z"));
-		SignExit = new ConstructSignLocs(world, plugin.getConfig().getInt("MonastereEcarlate.Instance.SignExit.Coord.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignExit.Coord.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignExit.Coord.z"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignExit.TP.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignExit.TP.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignExit.TP.z"));
+		SignEnter = new ConstructSignLocs(world, plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.Coord.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.Coord.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.Coord.z"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.TP.x"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.TP.y"), plugin.getConfig().getInt("MonastereEcarlate.Instance.SignEnter.TP.z"), (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.Yaw"), (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignEnter.TP.Picth"));
+		SignExit = new ConstructSignLocs(world, plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.Coord.x"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.Coord.y"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.Coord.z"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.TP.x"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.TP.y"), plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.TP.z"), (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.TP.Yaw"), (float) plugin.getConfig().getDouble("MonastereEcarlate.Instance.SignExit.TP.Picth"));
 	}
 	
+	/**
+	 * JavaDoc getWorld
+	 * This method return the MapName
+	 * The map name is taken from the config file
+	 *
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.1
+	 * @return MapName
+	 */
 	public String getWorld()
 	{
 		return plugin.getConfig().getString("MonastereEcarlate.Instance.MapName");
 	}
 	
+	/**
+	 * JavaDoc getInstanceSize
+	 * This method return the InstanceSize
+	 * The InstanceSiez is taken from the config file
+	 * 
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.1
+	 * @return IstanceSize
+	 */
 	public int getInstanceSize()
 	{
 		return plugin.getConfig().getInt("MonastereEcarlate.Instance.InstanceSize");
 	}
 	
+	/**
+	 * JavaDoc getZoneTest
+	 * This method return the Object ConstructZone
+	 * All the agruments needed to construct the object are taken from the config file
+	 * 
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.1
+	 * @return ZoneTest
+	 */
 	public ConstructZone getZoneTest()
 	{
 		return ZoneTest;
 	}
 	
-	public ConstructSignLocs getSignEntrer()
+	/**
+	 * JavaDoc getSignEnter
+	 * This method return the Object SignEnter
+	 * All the agruments needed to construct the object are taken from the config file
+	 * 
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.1
+	 * @return SignEnter
+	 */
+	public ConstructSignLocs getSignEnter()
 	{
 		return SignEnter;
 	}
 	
+	/**
+	 * JavaDoc getSignExit
+	 * This method return the Object SignExit
+	 * All the agruments needed to construct the object are taken from the config file
+	 * 
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.1
+	 * @return SignExit
+	 */
 	public ConstructSignLocs getSignExit()
 	{
 		return SignExit;

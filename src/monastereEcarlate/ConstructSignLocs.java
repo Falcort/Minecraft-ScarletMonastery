@@ -11,6 +11,29 @@ public class ConstructSignLocs
 	/**
 	 * JavaDoc Constructor ConstructSignLocs
 	 * This class create location for the sign, and the teleport of the sign
+	 * This version use double, and add the Eyes locations (Yaw, Pitch) for the Location
+	 * 
+	 * @param world
+	 * @param SignX
+	 * @param SignY
+	 * @param SignZ
+	 * @param SignTpX
+	 * @param SignTpY
+	 * @param SignTpZ
+	 * @param SignTpYaw
+	 * @param SignTpPicth
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 1
+	 */
+	public ConstructSignLocs(String world, double SignX, double SignY, double SignZ, double SignTpX, double SignTpY, double SignTpZ, float Yaw, float Pitch)
+	{
+		Sign = new Location(Bukkit.getServer().getWorld(world), SignX, SignY, SignZ);
+		SignTP = new Location(Bukkit.getServer().getWorld(world), SignTpX, SignTpY, SignTpZ, Yaw, Pitch);
+	}
+	
+	/**
+	 * JavaDoc Constructor ConstructSignLocs
+	 * This class create location for the sign, and the teleport of the sign
 	 * 
 	 * @param world
 	 * @param SignX

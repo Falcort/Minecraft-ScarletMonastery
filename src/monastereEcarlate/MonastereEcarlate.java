@@ -12,7 +12,7 @@ public class MonastereEcarlate extends JavaPlugin
 
 		properties.loadConfiguration();
 
-		new LobbySystem(this, properties.getWorld(), properties.getInstanceSize(), properties.getZoneTest(), properties.getSignEntrer(), properties.getSignExit());
+		new LobbySystem(this, properties.getWorld(), properties.getInstanceSize(), properties.getZoneTest(), properties.getSignEnter(), properties.getSignExit());
 
 	}
 }
