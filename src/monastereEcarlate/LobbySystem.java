@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class LobbySystem implements Listener
@@ -92,6 +93,29 @@ public class LobbySystem implements Listener
 				event.getPlayer().teleport(SignExitTP);
 			}
 		}
+	}
+	
+	/**
+	 * JavaDoc onPlayerLogin
+	 * this method teleport the player if the login into the cuboid
+	 * This mays apply if a player disconnect in the cuboid, there will not be 6/5 donjons
+	 * 
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.2
+	 */
+	@EventHandler
+	public void onPlayerLogin(PlayerLoginEvent event)
+	{
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable()
+		{
+			public void run()
+			{
+				if (cuboid.containsLocation(event.getPlayer().getLocation()))
+				{
+					event.getPlayer().teleport(SignExitTP);
+				}
+			}
+		}, 60);
 	}
 	
 	/**
