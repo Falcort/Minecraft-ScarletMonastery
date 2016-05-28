@@ -24,10 +24,26 @@ public class LobbySystem implements Listener
 	private Location SignEnterTP;
 	private Location SignExit;
 	private Location SignExitTP;
-	
+	private Location SignReady = new Location(Bukkit.getWorld("survival"), 25, 180, 165);
+	private int seconds;
 	private boolean complet;
+	private boolean running = false;
 	private int numberPlayerInArea;
 
+	/**
+	 * JavaDoc LobbySystem
+	 * This class is the core of the lobby system
+	 * He use all the object to give the class all the info needed
+	 * 
+	 * @param plugin
+	 * @param world
+	 * @param nbPlayerInstance
+	 * @param zone
+	 * @param SignEnter
+	 * @param SignExit
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.2
+	 */
 	public LobbySystem(MonastereEcarlate plugin, String world, int nbPlayerInstance, ConstructZone zone, ConstructSignLocs SignEnter, ConstructSignLocs SignExit)
 	{
 		this.plugin = plugin;
@@ -92,7 +108,51 @@ public class LobbySystem implements Listener
 			{
 				event.getPlayer().teleport(SignExitTP);
 			}
+			else if (event.getClickedBlock().getLocation().equals(SignReady))
+			{
+				if (complet && running==false)
+				{
+					starCountdown();
+					
+				}
+			}
 		}
+	}
+	
+	/**
+	 * JavaDoc startCountdown
+	 * This method is the countdown method
+	 * he decrease the seconds and display "GO !" at 0
+	 * 
+	 * @author Falcort alias Thibault SOUQUET
+	 * @version 0.2
+	 */
+	@SuppressWarnings("deprecation")
+	public void starCountdown()
+	{
+		seconds = 11;
+		Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable()
+        {
+			public void run()
+			{
+				seconds--;
+				if (seconds != 0)
+				{
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "title @a title {\"text\":\"" + seconds + "\",\"color\":\"gold\"}");
+				}
+				if (seconds == 0)
+				{
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "title @a title {\"text\":\"GO !\",\"color\":\"red\"}");
+					plugin.getServer().getScheduler().cancelTasks(plugin);
+				}
+				if  (complet == false)
+				{
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "title @a title {\"text\":\"Plus asez de joueurs\",\"color\":\"red\"}");
+					plugin.getServer().getScheduler().cancelTasks(plugin);
+				}
+			}
+        }, 0, 20);
+		running = true;
 	}
 	
 	/**
@@ -132,14 +192,17 @@ public class LobbySystem implements Listener
 		SignEnter.getBlock().setData((byte)0x04);
 		SignExit.getBlock().setType(Material.WALL_SIGN);
 		SignExit.getBlock().setData((byte)0x05);
-		Block b = SignExit.getBlock();
-		Sign s = (Sign) b.getState();
+		SignReady.getBlock().setType(Material.WALL_SIGN);
+		SignReady.getBlock().setData((byte)0x03);
+		
+		Block bExit = SignExit.getBlock();
+		Sign sExit = (Sign) bExit.getState();
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable()
 		{
 			public void run()
 			{
-				s.setLine(1, "Quittez ?");
-				s.update();
+				sExit.setLine(1, "Quittez ?");
+				sExit.update();
 			}
 		}, 30);
 	}
@@ -174,6 +237,32 @@ public class LobbySystem implements Listener
 			s.setLine(3, ChatColor.RED + "COMPLET");
 			s.update();
 			complet = true;
+		}
+		
+		Block bReady = SignReady.getBlock();
+		Sign sReady = (Sign) bReady.getState();
+		if(complet && running == false)
+		{
+			sReady.setLine(0, "");
+			sReady.setLine(1, "Ready ?");
+			sReady.setLine(2, "");
+			sReady.update();
+		}
+		else if(complet && running == true)
+		{
+			sReady.setLine(1, "Instance");
+			sReady.setLine(2, "en cours");
+			sReady.update();
+		}
+		else
+		{
+			sReady.setLine(1, "En attente");
+			sReady.setLine(2, "de joueur");
+			sReady.update();
+		}
+		if(complet == false)
+		{
+			running = false;
 		}
 	}
 }
