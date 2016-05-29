@@ -28,6 +28,7 @@ public class LobbySystem implements Listener
 	private int seconds;
 	private boolean complet;
 	private boolean running = false;
+	private boolean clicked = false;
 	private int numberPlayerInArea;
 
 	/**
@@ -110,8 +111,9 @@ public class LobbySystem implements Listener
 			}
 			else if (event.getClickedBlock().getLocation().equals(SignReady))
 			{
-				if (complet && running==false)
+				if (complet && running==false && clicked==false)
 				{
+					clicked = true;
 					starCountdown();
 					
 				}
@@ -262,6 +264,7 @@ public class LobbySystem implements Listener
 		}
 		if(complet == false)
 		{
+			clicked = false;
 			running = false;
 		}
 	}
