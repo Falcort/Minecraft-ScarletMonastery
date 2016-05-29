@@ -1,6 +1,9 @@
 package monastereEcarlate;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -30,6 +33,7 @@ public class LobbySystem implements Listener
 	private boolean running = false;
 	private boolean clicked = false;
 	private int numberPlayerInArea;
+	private Map<Integer, String>PlayerNames = new HashMap<Integer, String>();
 
 	/**
 	 * JavaDoc LobbySystem
@@ -80,6 +84,17 @@ public class LobbySystem implements Listener
 			if (cuboid.containsLocation(playerLoc))
 			{
 				numberPlayerInArea++;
+				if (!(PlayerNames.containsKey(player.getPlayer().getEntityId())))
+				{
+					PlayerNames.put(player.getPlayer().getEntityId(), player.getPlayer().getName());
+				}
+			}
+			else
+			{
+				if(PlayerNames.containsKey(player.getPlayer().getEntityId()))
+				{
+					PlayerNames.remove(player.getPlayer().getEntityId());
+				}
 			}
 			updateSign();
 		}
@@ -138,19 +153,22 @@ public class LobbySystem implements Listener
 			public void run()
 			{
 				seconds--;
-				if (seconds != 0)
+				for (Map.Entry<Integer, String> e : PlayerNames.entrySet())
 				{
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "title @a title {\"text\":\"" + seconds + "\",\"color\":\"gold\"}");
-				}
-				if (seconds == 0)
-				{
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "title @a title {\"text\":\"GO !\",\"color\":\"red\"}");
-					plugin.getServer().getScheduler().cancelTasks(plugin);
-				}
-				if  (complet == false)
-				{
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "title @a title {\"text\":\"Plus asez de joueurs\",\"color\":\"red\"}");
-					plugin.getServer().getScheduler().cancelTasks(plugin);
+					if (seconds != 0)
+					{
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "title " + e.getValue()+ " title {\"text\":\"" + seconds + "\",\"color\":\"gold\"}");
+					}
+					if (seconds == 0)
+					{
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "title " + e.getValue() + " title {\"text\":\"GO !\",\"color\":\"red\"}");
+						plugin.getServer().getScheduler().cancelTasks(plugin);
+					}
+					if  (complet == false)
+					{
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "title " + e.getValue() + " title {\"text\":\"Plus asez de joueurs\",\"color\":\"red\"}");
+						plugin.getServer().getScheduler().cancelTasks(plugin);
+					}
 				}
 			}
         }, 0, 20);
