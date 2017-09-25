@@ -1,4 +1,4 @@
-# Created by Thibault SOUQUET
+# Created by [SOUQUET Thibault](https://github.com/Falcort)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub release](https://img.shields.io/github/release/Falcort/Minecraft-WelcomeTitle.svg?maxAge=2592000)](https://github.com/Falcort/Minecraft-WelcomeTitle/releases)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.10-brightgreen.svg)]()
